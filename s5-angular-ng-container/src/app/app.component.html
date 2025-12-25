@@ -1,0 +1,18 @@
+<ng-container *ngIf="toggle; else toggleOff">
+  <p>Toggle is on</p>
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+    voluptatum.
+  </p>
+</ng-container>
+
+<ng-template #toggleOff>
+  <p>Toggle is off</p>
+  <p>
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Numquam optio
+    doloremque quibusdam minus qui voluptatibus explicabo, debitis et odit amet
+    quasi velit laborum officia ut nobis ducimus aliquam maiores dolore.
+  </p>
+</ng-template>
+
+<button (click)="onToggle()">Toggle</button>

@@ -1,0 +1,52 @@
+<div class="ekart--product--container">
+  <!-- <img [src]="product.productImage" alt="Iphone Image" />
+  <p>Name: {{ product.name }}</p>
+  <p>Price: ${{ product.price }}</p>
+  <p>Color: {{ product.color }}</p>
+  <p>Discount Price: ${{ getDiscountPrice().toFixed(2) }}</p>
+  <p>
+    {{
+      product.inStock > 0
+        ? "Only " + product.inStock + " left in stock"
+        : "Out of Stock"
+    }}
+  </p>
+
+  <button (click)="decrementCartValue()" [disabled]="addToCart === 0">-</button>
+  <span>{{ addToCart }}</span>
+  <button
+    (click)="incrementCartValue()"
+    [disabled]="addToCart === product.inStock"
+  >
+    +
+  </button> -->
+
+  <!-- <input (input)="onNameChange($event)" /> <br />
+  <p>Hello {{ name }}</p> -->
+
+  <app-search (searchTextChanged)="setSearchText($event)"></app-search>
+  <app-product-list [searchText]="searchText" #productList></app-product-list>
+  <app-product-detail
+    *ngIf="productList.selectedProduct"
+    [productListEl]="productListEl"
+  ></app-product-detail>
+
+  <div class="ekart-featured-products">
+    <div class="ekart-featured-product-heading">
+      <h1>Latest Arrival in Popular Brands</h1>
+    </div>
+
+    <app-featured-brands>
+      <h3 class="title">New Arrivals in Supreme</h3>
+      <button class="call-to-action">Show Supreme</button>
+    </app-featured-brands>
+    <app-featured-brands>
+      <h3 class="title">New Arrivals in Nike</h3>
+      <button class="call-to-action">Show Nike</button>
+    </app-featured-brands>
+    <app-featured-brands>
+      <h3 class="title">New Arrivals in Stussy</h3>
+      <button class="call-to-action">Show Stussy</button>
+    </app-featured-brands>
+  </div>
+</div>
