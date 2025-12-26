@@ -1,0 +1,41 @@
+<div class="notice-container">
+  <div class="notice-header">
+    <button (click)="displayTermsOfServices()">+</button>
+  </div>
+  <div class="notice-info">
+    <p>Read terms of services and privacy policy.</p>
+  </div>
+  <!-- <ng-template [ngIf]="display" [ngIfElse]="otherTemplate"> -->
+  <div class="notice-body" *appIf="display">
+    <h1>Terms of services & privacy policy</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum eligendi
+      labore dolorem animi corrupti magni non accusantium. Provident laborum
+      saepe eius eum! Eius doloremque quasi laudantium amet suscipit, voluptatem
+      expedita.
+    </p>
+    <h2>Terms of services</h2>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae,
+      facere nulla reiciendis officia odio veritatis molestiae voluptates quod
+      voluptatibus magni? Assumenda tempore cupiditate sapiente consectetur
+      laudantium laboriosam iste fuga ut.
+    </p>
+    <h2>Privacy policy</h2>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis veniam
+      sequi fuga distinctio sit recusandae unde necessitatibus. Est, maxime
+      voluptatibus tempora, blanditiis voluptates cupiditate asperiores delectus
+      quasi nulla et sunt.
+    </p>
+  </div>
+  <!-- </ng-template> -->
+  <!-- <ng-template #otherTemplate>
+    <div class="notice-body">
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis veniam
+        ng-template
+      </p>
+    </div>
+  </ng-template> -->
+</div>
