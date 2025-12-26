@@ -1,0 +1,75 @@
+<div class="notice-container">
+  <div class="notice-header">
+    <button (click)="onChangeTab('info')">Info</button>
+    <button (click)="onChangeTab('service')">Service</button>
+    <button (click)="onChangeTab('privacy')">Privacy</button>
+    <button (click)="onChangeTab('user')">User Aggrement</button>
+  </div>
+
+  <div class="notice-body" [ngSwitch]="tab">
+    <!-- Default Service & Aggrement page -->
+    <div *ngSwitchDefault>
+      <h1>Terms of services & privacy policy</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
+        dignissimos vero beatae, eaque modi quae nam autem quam odio, dicta
+        dolorem explicabo! Necessitatibus esse possimus, pariatur velit ad
+        corporis rem!
+      </p>
+    </div>
+
+    <!-- Terms of services page -->
+    <div *ngSwitchCase="'service'">
+      <h2>Terms of services</h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
+        dignissimos vero beatae, eaque modi quae nam autem quam odio, dicta
+        dolorem explicabo! Necessitatibus esse possimus, pariatur velit ad
+        corporis rem!
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
+        dignissimos vero beatae, eaque modi quae nam autem quam odio, dicta
+        dolorem explicabo! Necessitatibus esse possimus, pariatur velit ad
+        corporis rem!
+      </p>
+    </div>
+
+    <!-- Privacy policy page -->
+    <div *ngSwitchCase="'privacy'">
+      <h2>Privacy policy</h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
+        dignissimos vero beatae, eaque modi quae nam autem quam odio, dicta
+        dolorem explicabo! Necessitatibus esse possimus, pariatur velit ad
+        corporis rem!
+      </p>
+
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse
+        voluptatum enim repellendus voluptas, totam omnis non deserunt! Qui
+        provident iure cumque. Expedita assumenda explicabo exercitationem
+        voluptates eaque voluptatem vero vitae?
+      </p>
+    </div>
+
+    <!-- User Aggrement page -->
+    <div *ngSwitchCase="'user'">
+      <h2>User Aggrement</h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
+        dignissimos vero beatae, eaque modi quae nam autem quam odio, dicta
+        dolorem explicabo! Necessitatibus esse possimus, pariatur velit ad
+        corporis rem!
+      </p>
+
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse
+        voluptatum enim repellendus voluptas, totam omnis non deserunt! Qui
+        provident iure cumque. Expedita assumenda explicabo exercitationem
+        voluptates eaque voluptatem vero vitae?
+      </p>
+    </div>
+  </div>
+</div>
