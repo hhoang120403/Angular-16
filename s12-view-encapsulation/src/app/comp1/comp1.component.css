@@ -1,0 +1,32 @@
+.comp1-component {
+  flex: 1;
+  margin: 10px;
+  padding: 24px 16px;
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  background-color: #f6fff8;
+}
+
+.comp1-component h2 {
+  color: #2e7d32;
+  margin-bottom: 8px;
+}
+
+.comp1-component p {
+  color: #1b5e20;
+  margin-bottom: 12px;
+}
+
+/* .comp1-component button {
+  width: 120px;
+  height: 30px;
+  border: none;
+  background-color: #4caf50;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.comp1-component button:hover {
+  background-color: #43a047;
+  cursor: pointer;
+} */
