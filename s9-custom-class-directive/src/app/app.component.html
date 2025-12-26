@@ -1,0 +1,19 @@
+<h2>Custom Class & Style Directive</h2>
+<div [appClass]="{ 'app-container': true, appHighlight: true, appFont: 5 > 2 }">
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam delectus
+    dolores neque obcaecati officia suscipit eos nulla corrupti impedit ratione
+    aut ipsa, dolorum ipsum laborum eaque molestiae minima non totam.
+  </p>
+</div>
+
+<div
+  class="app-container"
+  [appStyle]="{ 'font-size': '24px', color: active ? 'green' : 'red' }"
+>
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam delectus
+    dolores neque obcaecati officia suscipit eos nulla corrupti impedit ratione
+    aut ipsa, dolorum ipsum laborum eaque molestiae minima non totam.
+  </p>
+</div>
