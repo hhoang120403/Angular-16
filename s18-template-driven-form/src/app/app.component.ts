@@ -13,6 +13,7 @@ export class AppComponent {
   lastName = '';
   emailAddress = '';
   dateOfBirth = '';
+  defaultGender = 'male';
 
   @ViewChild('registrationForm') registrationForm: NgForm | undefined;
 
@@ -28,6 +29,15 @@ export class AppComponent {
     console.log(this.registrationForm?.controls['firstName'].value);
     console.log(this.registrationForm?.value.lastName);
     console.log(this.registrationForm?.value.email);
+
+    this.registrationForm?.reset();
+
+    this.registrationForm?.form.patchValue({
+      gender: this.defaultGender,
+      address: {
+        country: 'America',
+      },
+    });
   }
 
   generateUsername() {
