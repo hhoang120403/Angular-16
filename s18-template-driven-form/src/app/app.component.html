@@ -155,11 +155,15 @@
           required
         />
       </div>
-
-      <small *ngIf="adr.invalid && adr.touched"
-        >Some of the address fields not contain a valid value</small
-      >
     </div>
+    <div class="column">
+      <input type="checkbox" name="agreement" [(ngModel)]="isAgreement" />
+      <label for="agreement">I agree to the terms and conditions</label>
+    </div>
+
+    <small *ngIf="adr.invalid && adr.touched"
+      >Some of the address fields not contain a valid value</small
+    >
     <input
       type="submit"
       value="Submit"

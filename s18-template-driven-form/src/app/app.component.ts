@@ -20,6 +20,7 @@ export class AppComponent {
   region = '';
   postalCode = '';
   userName = '';
+  isAgreement = false;
 
   @ViewChild('registrationForm') registrationForm: NgForm | undefined;
 
@@ -46,8 +47,9 @@ export class AppComponent {
     this.region = this.registrationForm?.value.address.region;
     this.postalCode = this.registrationForm?.value.address.postalCode;
     this.userName = this.registrationForm?.value.username;
+    this.isAgreement = this.registrationForm?.value.agreement;
 
-    this.registrationForm?.reset();
+    // this.registrationForm?.reset();
 
     this.registrationForm?.form.patchValue({
       gender: this.defaultGender,
