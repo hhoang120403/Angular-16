@@ -14,6 +14,12 @@ export class AppComponent {
   emailAddress = '';
   dateOfBirth = '';
   defaultGender = 'male';
+  gender = '';
+  country = '';
+  city = '';
+  region = '';
+  postalCode = '';
+  userName = '';
 
   @ViewChild('registrationForm') registrationForm: NgForm | undefined;
 
@@ -26,9 +32,20 @@ export class AppComponent {
   onFormSubmit() {
     console.log(this.registrationForm);
     // console.log(this.registrationForm?.value.firstName);
-    console.log(this.registrationForm?.controls['firstName'].value);
-    console.log(this.registrationForm?.value.lastName);
-    console.log(this.registrationForm?.value.email);
+    // console.log(this.registrationForm?.controls['firstName'].value);
+    // console.log(this.registrationForm?.value.lastName);
+    // console.log(this.registrationForm?.value.email);
+
+    this.firstName = this.registrationForm?.value.firstName;
+    this.lastName = this.registrationForm?.value.lastName;
+    this.emailAddress = this.registrationForm?.value.email;
+    this.dateOfBirth = this.registrationForm?.value.dob;
+    this.gender = this.registrationForm?.value.gender;
+    this.country = this.registrationForm?.value.address.country;
+    this.city = this.registrationForm?.value.address.city;
+    this.region = this.registrationForm?.value.address.region;
+    this.postalCode = this.registrationForm?.value.address.postalCode;
+    this.userName = this.registrationForm?.value.username;
 
     this.registrationForm?.reset();
 
