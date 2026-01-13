@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -26,10 +26,26 @@ export class AppComponent implements OnInit {
         region: new FormControl(null),
         postalCode: new FormControl(null, Validators.required),
       }),
+      skills: new FormArray([new FormControl(null, Validators.required)]),
     });
+  }
+
+  get skills(): FormArray<FormControl> {
+    return this.reactiveForm?.get('skills') as FormArray<FormControl>;
   }
 
   onFormSubmit() {
     console.log(this.reactiveForm);
+  }
+
+  addSkills() {
+    (<FormArray>this.reactiveForm?.get('skills')).push(
+      new FormControl(null, Validators.required)
+    );
+  }
+
+  onDeleteSkill(index: number) {
+    const controls = this.skills;
+    controls.removeAt(index);
   }
 }
