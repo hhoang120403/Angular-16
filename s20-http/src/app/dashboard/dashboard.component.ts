@@ -38,7 +38,29 @@ export class DashboardComponent implements OnInit {
         }
       )
       .subscribe((res) => {
-        // this.fetchAllTaks();
+        this.fetchAllTaks();
+      });
+  }
+
+  DeleteTask(id: string | undefined) {
+    this.http
+      .delete(
+        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks/' +
+          id +
+          '.json'
+      )
+      .subscribe(() => {
+        this.fetchAllTaks();
+      });
+  }
+
+  ClearAllTasks() {
+    this.http
+      .delete(
+        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json'
+      )
+      .subscribe(() => {
+        this.fetchAllTaks();
       });
   }
 
