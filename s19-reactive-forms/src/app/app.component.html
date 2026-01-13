@@ -177,30 +177,6 @@
     </button>
 
     <!--HTML for Experience Form Array -->
-    <!-- <div class="input-box">
-      <div class="experience" formArrayName="experience">
-        <label>Experience</label>
-        <input type="text" placeholder="Company Name" />
-        <div class="column">
-          <div class="select-box">
-            <select>
-              <option hidden>Position</option>
-              <option>Junior Developer</option>
-              <option>Software Developer</option>
-              <option>Senior Developer</option>
-              <option>Team Lead</option>
-            </select>
-          </div>
-          <input type="number" placeholder="Experience" />
-        </div>
-        <div class="column">
-          <input type="date" placeholder="Start Date" />
-          <input type="date" placeholder="End Date" />
-        </div>
-        <button type="button" class="btn-add-delete">Delete Experience</button>
-      </div>
-    </div>
-    <button type="button" class="btn-add-delete">Add Experience</button> -->
     <div class="input-box" formArrayName="experience">
       <div
         class="experience"
@@ -268,26 +244,31 @@
 </section>
 
 <!--uncomment below HTML for displaying form data-->
-
-<!-- <section class="user-detail-container">
+<section class="user-detail-container">
   <div class="user-details-container">
     <div class="user-avatar">
-      <p>JS</p>
+      <p>
+        {{
+          formData?.firstName?.charAt(0).toUpperCase() +
+            formData?.lastName?.charAt(0).toUpperCase()
+        }}
+      </p>
     </div>
     <div class="user-details">
       <div class="user-name">
-        <h2>John Smith</h2>
+        <h2>{{ formData?.firstName }} {{ formData?.lastName }}</h2>
       </div>
-      <p><b>Email:</b> johnsmith@gmail.com</p>
-      <p><b>Username:</b> johnsmith86 </p>
-      <p><b>Date of birth:</b> July 21, 1989</p>
+      <p><b>Email:</b> {{ formData?.email }}</p>
+      <p><b>Username:</b> {{ formData?.username }}</p>
+      <p><b>Date of birth:</b> {{ formData?.dateOfBirth }}</p>
       <div class="user-name">
         <h3>Address</h3>
       </div>
-      <span>India</span>.
-      <span> New Delhi</span>.
-      <span> NCR</span>.
-      <span> 234565</span>
+      <span>{{ formData?.address?.country }}</span
+      >. <span>{{ formData?.address?.city }}</span
+      >. <span>{{ formData?.address?.region }}</span
+      >.
+      <span>{{ formData?.address?.postalCode }}</span>
     </div>
   </div>
-</section> -->
+</section>

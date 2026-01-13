@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
 
   reactiveForm: FormGroup | null = null;
   formStatus: string = '';
+  formData: any = {};
 
   ngOnInit(): void {
     this.reactiveForm = new FormGroup({
@@ -68,7 +69,8 @@ export class AppComponent implements OnInit {
   }
 
   onFormSubmit() {
-    console.log(this.reactiveForm);
+    this.formData = this.reactiveForm?.value;
+    this.reactiveForm?.reset();
   }
 
   addSkills() {
