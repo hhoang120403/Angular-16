@@ -11,6 +11,7 @@ import { map } from 'rxjs';
 export class DashboardComponent implements OnInit {
   showCreateTaskForm: boolean = false;
   http: HttpClient = inject(HttpClient);
+  allTasks: Task[] = [];
 
   ngOnInit(): void {
     this.fetchAllTaks();
@@ -37,8 +38,12 @@ export class DashboardComponent implements OnInit {
         }
       )
       .subscribe((res) => {
-        console.log(res);
+        // this.fetchAllTaks();
       });
+  }
+
+  FetchAllTasks() {
+    this.fetchAllTaks();
   }
 
   private fetchAllTaks() {
@@ -58,8 +63,8 @@ export class DashboardComponent implements OnInit {
           return tasks;
         })
       )
-      .subscribe((res) => {
-        console.log(res);
+      .subscribe((tasks) => {
+        this.allTasks = tasks;
       });
   }
 }
