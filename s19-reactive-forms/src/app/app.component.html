@@ -161,7 +161,7 @@
 
     <!--HTML for Experience Form Array -->
     <!-- <div class="input-box">
-      <div class="experience">
+      <div class="experience" formArrayName="experience">
         <label>Experience</label>
         <input type="text" placeholder="Company Name" />
         <div class="column">
@@ -184,6 +184,61 @@
       </div>
     </div>
     <button type="button" class="btn-add-delete">Add Experience</button> -->
+    <div class="input-box" formArrayName="experience">
+      <div
+        class="experience"
+        *ngFor="let exp of experience.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <div>
+          <label>Experience {{ i + 1 }}</label>
+          <input
+            type="text"
+            placeholder="Company Name"
+            formControlName="companyName"
+          />
+          <div class="column">
+            <div class="select-box">
+              <select formControlName="position">
+                <option hidden>Position</option>
+                <option>Junior Developer</option>
+                <option>Software Developer</option>
+                <option>Senior Developer</option>
+                <option>Team Lead</option>
+              </select>
+            </div>
+            <input
+              type="number"
+              placeholder="Experience"
+              formControlName="totalExperience"
+            />
+          </div>
+          <div class="column">
+            <input
+              type="date"
+              placeholder="Start Date"
+              formControlName="startDate"
+            />
+            <input
+              type="date"
+              placeholder="End Date"
+              formControlName="endDate"
+            />
+          </div>
+          <button
+            type="button"
+            class="btn-add-delete"
+            (click)="onDeleteExperience(i)"
+          >
+            Delete Experience
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn-add-delete" (click)="addExperience()">
+      Add Experience
+    </button>
 
     <input
       type="submit"
