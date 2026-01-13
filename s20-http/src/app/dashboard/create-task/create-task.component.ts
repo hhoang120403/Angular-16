@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Task } from 'src/app/model/Task';
 
@@ -7,12 +14,16 @@ import { Task } from 'src/app/model/Task';
   templateUrl: './create-task.component.html',
   styleUrls: ['./create-task.component.css'],
 })
-export class CreateTaskComponent {
-  @Output()
-  CloseForm: EventEmitter<boolean> = new EventEmitter<boolean>();
+export class CreateTaskComponent implements AfterViewInit {
+  @Input() isEditMode: boolean = false;
 
-  @Output()
-  EmitTaskData: EventEmitter<Task> = new EventEmitter<Task>();
+  @Input() selectedTask: Task | undefined;
+
+  @ViewChild('taskForm') taskForm: NgForm | undefined;
+
+  @Output() CloseForm: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output() EmitTaskData: EventEmitter<Task> = new EventEmitter<Task>();
 
   OnCloseForm() {
     this.CloseForm.emit(false);
@@ -21,5 +32,14 @@ export class CreateTaskComponent {
   onSubmitForm(taskForm: NgForm) {
     this.EmitTaskData.emit(taskForm.value);
     this.CloseForm.emit(false);
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      if (!this.taskForm || !this.selectedTask) {
+        return;
+      }
+      this.taskForm.form.patchValue(this.selectedTask);
+    }, 0);
   }
 }

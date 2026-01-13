@@ -11,23 +11,48 @@ export class DashboardComponent implements OnInit {
   showCreateTaskForm: boolean = false;
   taskService: TaskService = inject(TaskService);
   allTasks: Task[] = [];
+  editMode: boolean = false;
+  selectedTask: Task | undefined;
+  currentTaskId: string | undefined;
 
   ngOnInit(): void {
     this.FetchAllTasks();
   }
 
   OpenCreateTaskForm() {
+    this.editMode = false;
     this.showCreateTaskForm = true;
+    this.selectedTask = {
+      title: '',
+      desc: '',
+      assignedTo: '',
+      createdAt: '',
+      priority: '',
+      status: '',
+    };
   }
 
   CloseCreateTaskForm() {
     this.showCreateTaskForm = false;
   }
 
-  AddNewTask(task: Task) {
-    this.taskService.createTask(task).subscribe({
-      next: () => this.FetchAllTasks(),
-    });
+  CreateOrUpdateTask(task: Task) {
+    if (this.editMode) {
+      this.taskService.updateTask(this.currentTaskId, task).subscribe({
+        next: () => this.FetchAllTasks(),
+      });
+    } else {
+      this.taskService.createTask(task).subscribe({
+        next: () => this.FetchAllTasks(),
+      });
+    }
+  }
+
+  EditTask(id: string | undefined) {
+    this.currentTaskId = id;
+    this.editMode = true;
+    this.showCreateTaskForm = true;
+    this.selectedTask = this.allTasks.find((task) => task.id === id);
   }
 
   DeleteTask(id: string | undefined) {
