@@ -98,4 +98,32 @@ export class AppComponent implements OnInit {
     const fArray = this.experience;
     fArray.removeAt(index);
   }
+
+  generateUsername() {
+    let username = '';
+    const fName: string = this.reactiveForm?.get('firstName')?.value;
+    const lName: string = this.reactiveForm?.get('lastName')?.value;
+    const dob: string = this.reactiveForm?.get('dateOfBirth')?.value;
+
+    if (fName.length >= 3) {
+      username += fName.substring(0, 3);
+    } else {
+      username += fName;
+    }
+
+    if (lName.length >= 3) {
+      username += lName.substring(0, 3);
+    } else {
+      username += lName;
+    }
+
+    let dateOfBirth = new Date(dob);
+    username += dateOfBirth.getFullYear();
+
+    username = username.toLowerCase();
+
+    // this.reactiveForm?.get('username')?.setValue(username);
+
+    this.reactiveForm?.get('username')?.patchValue(username);
+  }
 }

@@ -54,7 +54,16 @@
     <div class="column">
       <div class="input-box">
         <input type="text" placeholder="username" formControlName="username" />
-        <button class="btn-gen-username" type="button">
+        <button
+          class="btn-gen-username"
+          type="button"
+          (click)="generateUsername()"
+          [disabled]="
+            reactiveForm?.get('firstName')?.invalid ||
+            reactiveForm?.get('lastName')?.invalid ||
+            reactiveForm?.get('dateOfBirth')?.invalid
+          "
+        >
           Create a Username
         </button>
       </div>
