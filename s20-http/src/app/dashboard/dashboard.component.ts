@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Task } from '../model/Task';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs';
+import { TaskService } from '../services/task.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,11 +9,11 @@ import { map } from 'rxjs';
 })
 export class DashboardComponent implements OnInit {
   showCreateTaskForm: boolean = false;
-  http: HttpClient = inject(HttpClient);
+  taskService: TaskService = inject(TaskService);
   allTasks: Task[] = [];
 
   ngOnInit(): void {
-    this.fetchAllTaks();
+    this.FetchAllTasks();
   }
 
   OpenCreateTaskForm() {
@@ -26,67 +25,26 @@ export class DashboardComponent implements OnInit {
   }
 
   AddNewTask(task: Task) {
-    const headers = new HttpHeaders({
-      'my-header': 'Hello World',
+    this.taskService.createTask(task).subscribe({
+      next: () => this.FetchAllTasks(),
     });
-    this.http
-      .post<{ name: string }>(
-        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json',
-        task,
-        {
-          headers,
-        }
-      )
-      .subscribe((res) => {
-        this.fetchAllTaks();
-      });
   }
 
   DeleteTask(id: string | undefined) {
-    this.http
-      .delete(
-        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks/' +
-          id +
-          '.json'
-      )
-      .subscribe(() => {
-        this.fetchAllTaks();
-      });
+    this.taskService.deleteTask(id).subscribe({
+      next: () => this.FetchAllTasks(),
+    });
   }
 
   ClearAllTasks() {
-    this.http
-      .delete(
-        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json'
-      )
-      .subscribe(() => {
-        this.fetchAllTaks();
-      });
+    this.taskService.deleteAllTasks().subscribe({
+      next: () => (this.allTasks = []),
+    });
   }
 
   FetchAllTasks() {
-    this.fetchAllTaks();
-  }
-
-  private fetchAllTaks() {
-    this.http
-      .get<{ [key: string]: Task }>(
-        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json'
-      )
-      .pipe(
-        map((res) => {
-          // Transform Data
-          let tasks = [];
-          for (let key in res) {
-            if (res.hasOwnProperty(key)) {
-              tasks.push({ ...res[key], id: key });
-            }
-          }
-          return tasks;
-        })
-      )
-      .subscribe((tasks) => {
-        this.allTasks = tasks;
-      });
+    this.taskService.getAllTasks().subscribe((tasks) => {
+      this.allTasks = tasks;
+    });
   }
 }
