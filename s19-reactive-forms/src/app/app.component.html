@@ -11,11 +11,19 @@
         />
         <small
           *ngIf="
-            reactiveForm?.get('firstName')?.invalid &&
+            (reactiveForm?.get('firstName')?.errors)?.['required'] &&
             reactiveForm?.get('firstName')?.touched
           "
         >
           First name is required
+        </small>
+        <small
+          *ngIf="
+            (reactiveForm?.get('firstName')?.errors)?.['noSpaceAllowed'] &&
+            reactiveForm?.get('firstName')?.touched
+          "
+        >
+          First name is not valid
         </small>
       </div>
       <div class="input-box">
@@ -26,7 +34,7 @@
             reactiveForm?.get('lastName')?.touched
           "
         >
-          Last name is required
+          Last name is not valid
         </small>
       </div>
     </div>
@@ -39,7 +47,7 @@
           reactiveForm?.get('email')?.touched
         "
       >
-        Email is required
+        Email is not valid
       </small>
     </div>
 
@@ -105,7 +113,7 @@
           reactiveForm?.get('address.streetAddress')?.touched
         "
       >
-        Street address is required
+        Street address is not valid
       </small>
       <div class="column">
         <div class="select-box">
@@ -122,7 +130,7 @@
               reactiveForm?.get('address.country')?.touched
             "
           >
-            Country is required
+            Country is not valid
           </small>
         </div>
         <input type="text" placeholder="City" formControlName="city" />
@@ -140,7 +148,7 @@
             reactiveForm?.get('address.postalCode')?.touched
           "
         >
-          Postal code is required
+          Postal code is not valid
         </small>
       </div>
     </div>
