@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   title = 's19-reactive-forms';
 
   reactiveForm: FormGroup | null = null;
+  formStatus: string = '';
 
   ngOnInit(): void {
     this.reactiveForm = new FormGroup({
@@ -36,6 +37,25 @@ export class AppComponent implements OnInit {
       }),
       skills: new FormArray([new FormControl(null, Validators.required)]),
       experience: new FormArray([]),
+    });
+
+    // Value changes
+    // this.reactiveForm?.get('firstName')?.valueChanges.subscribe((value) => {
+    //   console.log(value);
+    // });
+
+    // Status changes
+    // this.reactiveForm?.get('email')?.statusChanges.subscribe((value) => {
+    //   console.log(value);
+    // });
+
+    // Value and status changes
+    // this.reactiveForm?.valueChanges.subscribe((value) => {
+    //   console.log(value);
+    // });
+
+    this.reactiveForm?.statusChanges.subscribe((status) => {
+      this.formStatus = status;
     });
   }
 
