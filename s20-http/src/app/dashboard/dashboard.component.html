@@ -7,6 +7,9 @@
 ></app-create-task>
 
 <div class="dashboard-container">
+  <div *ngIf="errorMessage" class="sb sb-error">
+    {{ errorMessage }}
+  </div>
   <div style="display: flex">
     <div style="width: 50%">
       <h2>Dashboard</h2>
