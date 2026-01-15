@@ -1,13 +1,18 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Task } from '../model/Task';
-import { map } from 'rxjs';
+import { map, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
   http: HttpClient = inject(HttpClient);
+  errorSubject = new Subject<HttpErrorResponse>();
 
   getAllTasks() {
     return this.http
@@ -33,13 +38,20 @@ export class TaskService {
       'my-header': 'Hello World',
     });
 
-    return this.http.post<{ name: string }>(
-      'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json',
-      task,
-      {
-        headers,
-      }
-    );
+    return this.http
+      .post<{ name: string }>(
+        'https://1angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json',
+        task,
+        {
+          headers,
+        }
+      )
+      .subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.errorSubject.next(err);
+        },
+      });
   }
 
   updateTask(id: string | undefined, task: Task) {
@@ -52,11 +64,18 @@ export class TaskService {
   }
 
   deleteTask(id: string | undefined) {
-    return this.http.delete(
-      'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks/' +
-        id +
-        '.json'
-    );
+    return this.http
+      .delete(
+        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks/' +
+          id +
+          '.json'
+      )
+      .subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.errorSubject.next(err);
+        },
+      });
   }
 
   deleteAllTasks() {

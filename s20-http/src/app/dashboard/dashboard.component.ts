@@ -1,14 +1,15 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Task } from '../model/Task';
 import { TaskService } from '../services/task.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   showCreateTaskForm: boolean = false;
   taskService: TaskService = inject(TaskService);
   allTasks: Task[] = [];
@@ -18,8 +19,17 @@ export class DashboardComponent implements OnInit {
   isLoading: boolean = false;
   errorMessage: string | null = null;
 
+  errorSubscription: Subscription | undefined;
+
   ngOnInit(): void {
     this.FetchAllTasks();
+    this.errorSubscription = this.taskService.errorSubject.subscribe({
+      next: (err) => this.setErrorMessage(err),
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.errorSubscription?.unsubscribe();
   }
 
   OpenCreateTaskForm() {
@@ -45,9 +55,7 @@ export class DashboardComponent implements OnInit {
         next: () => this.FetchAllTasks(),
       });
     } else {
-      this.taskService.createTask(task).subscribe({
-        next: () => this.FetchAllTasks(),
-      });
+      this.taskService.createTask(task);
     }
   }
 
@@ -59,9 +67,7 @@ export class DashboardComponent implements OnInit {
   }
 
   DeleteTask(id: string | undefined) {
-    this.taskService.deleteTask(id).subscribe({
-      next: () => this.FetchAllTasks(),
-    });
+    this.taskService.deleteTask(id);
   }
 
   ClearAllTasks() {
@@ -80,7 +86,6 @@ export class DashboardComponent implements OnInit {
       error: (err) => {
         this.setErrorMessage(err);
         this.isLoading = false;
-        setTimeout(() => (this.errorMessage = null), 3000);
       },
     });
   }
@@ -88,6 +93,10 @@ export class DashboardComponent implements OnInit {
   private setErrorMessage(err: HttpErrorResponse) {
     if (err.error.error === 'Permission denied') {
       this.errorMessage = 'You do not have permission to perform this action.';
+    } else {
+      this.errorMessage = err.message;
     }
+
+    setTimeout(() => (this.errorMessage = null), 3000);
   }
 }
