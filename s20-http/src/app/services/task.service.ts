@@ -5,13 +5,15 @@ import {
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Task } from '../model/Task';
-import { map, Subject } from 'rxjs';
+import { catchError, map, Subject, throwError } from 'rxjs';
+import { LoggingService } from './logging.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
   http: HttpClient = inject(HttpClient);
+  loggingService: LoggingService = inject(LoggingService);
   errorSubject = new Subject<HttpErrorResponse>();
 
   getAllTasks() {
@@ -29,6 +31,16 @@ export class TaskService {
             }
           }
           return tasks;
+        }),
+        catchError((err) => {
+          // Write logic to log errors
+          this.loggingService.logError({
+            statusCode: err.status,
+            errorMessage: err.message,
+            timestamp: new Date(),
+          });
+
+          return throwError(() => err);
         })
       );
   }
@@ -40,11 +52,23 @@ export class TaskService {
 
     return this.http
       .post<{ name: string }>(
-        'https://1angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json',
+        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json',
         task,
         {
           headers,
         }
+      )
+      .pipe(
+        catchError((err) => {
+          // Write logic to log errors
+          this.loggingService.logError({
+            statusCode: err.status,
+            errorMessage: err.message,
+            timestamp: new Date(),
+          });
+
+          return throwError(() => err);
+        })
       )
       .subscribe({
         next: (res) => {},
@@ -55,12 +79,31 @@ export class TaskService {
   }
 
   updateTask(id: string | undefined, task: Task) {
-    return this.http.put(
-      'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks/' +
-        id +
-        '.json',
-      task
-    );
+    return this.http
+      .put(
+        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks/' +
+          id +
+          '.json',
+        task
+      )
+      .pipe(
+        catchError((err) => {
+          // Write logic to log errors
+          this.loggingService.logError({
+            statusCode: err.status,
+            errorMessage: err.message,
+            timestamp: new Date(),
+          });
+
+          return throwError(() => err);
+        })
+      )
+      .subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.errorSubject.next(err);
+        },
+      });
   }
 
   deleteTask(id: string | undefined) {
@@ -69,6 +112,18 @@ export class TaskService {
         'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks/' +
           id +
           '.json'
+      )
+      .pipe(
+        catchError((err) => {
+          // Write logic to log errors
+          this.loggingService.logError({
+            statusCode: err.status,
+            errorMessage: err.message,
+            timestamp: new Date(),
+          });
+
+          return throwError(() => err);
+        })
       )
       .subscribe({
         next: (res) => {},
@@ -79,8 +134,51 @@ export class TaskService {
   }
 
   deleteAllTasks() {
-    return this.http.delete(
-      'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json'
-    );
+    return this.http
+      .delete(
+        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json'
+      )
+      .pipe(
+        catchError((err) => {
+          // Write logic to log errors
+          this.loggingService.logError({
+            statusCode: err.status,
+            errorMessage: err.message,
+            timestamp: new Date(),
+          });
+
+          return throwError(() => err);
+        })
+      )
+      .subscribe({
+        next: (res) => {},
+        error: (err) => {
+          this.errorSubject.next(err);
+        },
+      });
+  }
+
+  getTaskDetails(id: string | undefined) {
+    return this.http
+      .get<Task>(
+        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks/' +
+          id +
+          '.json'
+      )
+      .pipe(
+        map((res) => {
+          return { ...res, id };
+        }),
+        catchError((err) => {
+          // Write logic to log errors
+          this.loggingService.logError({
+            statusCode: err.status,
+            errorMessage: err.message,
+            timestamp: new Date(),
+          });
+
+          return throwError(() => err);
+        })
+      );
   }
 }

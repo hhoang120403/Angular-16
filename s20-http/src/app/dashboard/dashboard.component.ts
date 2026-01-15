@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   showCreateTaskForm: boolean = false;
+  showTaskDetails: boolean = false;
   taskService: TaskService = inject(TaskService);
   allTasks: Task[] = [];
   editMode: boolean = false;
@@ -51,9 +52,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   CreateOrUpdateTask(task: Task) {
     if (this.editMode) {
-      this.taskService.updateTask(this.currentTaskId, task).subscribe({
-        next: () => this.FetchAllTasks(),
-      });
+      this.taskService.updateTask(this.currentTaskId, task);
     } else {
       this.taskService.createTask(task);
     }
@@ -71,9 +70,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ClearAllTasks() {
-    this.taskService.deleteAllTasks().subscribe({
-      next: () => (this.allTasks = []),
-    });
+    this.taskService.deleteAllTasks();
   }
 
   FetchAllTasks() {
@@ -88,6 +85,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       },
     });
+  }
+
+  ShowTaskDetails(id: string | undefined) {
+    this.showTaskDetails = true;
+    this.taskService.getTaskDetails(id).subscribe({
+      next: (task) => {
+        this.selectedTask = task;
+      },
+      error: (err) => {
+        this.setErrorMessage(err);
+      },
+    });
+  }
+
+  OnCloseDetailViewEvent() {
+    this.showTaskDetails = false;
   }
 
   private setErrorMessage(err: HttpErrorResponse) {
