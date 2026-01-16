@@ -23,16 +23,16 @@ export class TaskService {
       'content-type': 'application/json',
     });
 
-    let queryParams = new HttpParams();
-    queryParams = queryParams.set('page', '2');
-    queryParams = queryParams.set('item', '10');
+    // let queryParams = new HttpParams();
+    // queryParams = queryParams.set('page', '2');
+    // queryParams = queryParams.set('item', '10');
 
     return this.http
       .get<{ [key: string]: Task }>(
         'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json',
         {
           headers,
-          params: queryParams,
+          // params: queryParams,
           observe: 'body',
         }
       )
