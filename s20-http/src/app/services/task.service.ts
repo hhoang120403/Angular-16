@@ -2,6 +2,7 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders,
+  HttpParams,
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Task } from '../model/Task';
@@ -17,9 +18,21 @@ export class TaskService {
   errorSubject = new Subject<HttpErrorResponse>();
 
   getAllTasks() {
+    let headers = new HttpHeaders({
+      'content-type': 'application/json',
+    });
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.set('page', '2');
+    queryParams = queryParams.set('item', '10');
+
     return this.http
       .get<{ [key: string]: Task }>(
-        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json'
+        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json',
+        {
+          headers,
+          params: queryParams,
+        }
       )
       .pipe(
         map((res) => {
