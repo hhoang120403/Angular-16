@@ -1,12 +1,13 @@
 import {
   HttpClient,
   HttpErrorResponse,
+  HttpEventType,
   HttpHeaders,
   HttpParams,
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Task } from '../model/Task';
-import { catchError, map, Subject, throwError } from 'rxjs';
+import { catchError, map, Subject, tap, throwError } from 'rxjs';
 import { LoggingService } from './logging.service';
 
 @Injectable({
@@ -32,6 +33,7 @@ export class TaskService {
         {
           headers,
           params: queryParams,
+          observe: 'body',
         }
       )
       .pipe(
@@ -149,9 +151,17 @@ export class TaskService {
   deleteAllTasks() {
     return this.http
       .delete(
-        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json'
+        'https://angularhttpclient-1df7a-default-rtdb.firebaseio.com/tasks.json',
+        {
+          observe: 'events',
+        }
       )
       .pipe(
+        tap((event) => {
+          if (event.type === HttpEventType.Response) {
+            console.log(event);
+          }
+        }),
         catchError((err) => {
           // Write logic to log errors
           this.loggingService.logError({
