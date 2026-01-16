@@ -1,0 +1,23 @@
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+})
+export class LoginComponent {
+  isLoginMode: boolean = true;
+
+  onSwitchMode() {
+    this.isLoginMode = !this.isLoginMode;
+  }
+
+  onSubmit(authForm: NgForm) {
+    if (authForm.invalid) {
+      return;
+    }
+    console.log(authForm.value);
+    authForm.reset();
+  }
+}
